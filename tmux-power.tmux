@@ -95,45 +95,36 @@ tmux_set @prefix_highlight_fg "$BG"
 tmux_set @prefix_highlight_bg "$FG"
 tmux_set @prefix_highlight_show_copy_mode 'on'
 tmux_set @prefix_highlight_copy_mode_attr "fg=$TC,bg=$BG,bold"
-tmux_set @prefix_highlight_output_prefix "#[fg=$TC]#[bg=$BG]$left_arrow_icon#[bg=$TC]#[fg=$BG]"
+tmux_set @prefix_highlight_output_prefix "#[fg=$G04]#[bg=$TC]$right_arrow_icon#[bg=$TC]#[fg=$BG]"
 tmux_set @prefix_highlight_output_suffix "#[fg=$TC]#[bg=$BG]$right_arrow_icon"
 
 #     
 # Left side of status bar
 tmux_set status-left-bg "$G04"
 tmux_set status-left-fg "G12"
-tmux_set status-left-length 150
+tmux_set status-left-length 300
 user=$(whoami)
-LS="#[fg=$G04,bg=$TC,bold] $user_icon $user@#h #[fg=$TC,bg=$G06,nobold]$right_arrow_icon#[fg=$TC,bg=$G06] $session_icon #S "
-if "$show_upload_speed"; then
-    LS="$LS#[fg=$G06,bg=$G05]$right_arrow_icon#[fg=$TC,bg=$G05] $upload_speed_icon #{upload_speed} #[fg=$G05,bg=$BG]$right_arrow_icon"
-else
-    LS="$LS#[fg=$G06,bg=$BG]$right_arrow_icon"
-fi
+LS="#[fg=$G04,bg=$TC,bold] $user_icon termi #[fg=$TC,bg=$G06,nobold]$right_arrow_icon#[fg=$TC,bg=$G06] $session_icon #S "
+
+LS="$LS#[fg=$G06,bg=$G05]$right_arrow_icon#[fg=$TC,bg=$G05]#[bg=$G05]#[fg=$TC]C:\#{df_percent}#[fg=$G05]#[bg=$BG]$right_arrow_icon"
+
 if [[ $prefix_highlight_pos == 'L' || $prefix_highlight_pos == 'LR' ]]; then
     LS="$LS#{prefix_highlight}"
 fi
+
 tmux_set status-left "$LS"
 
 # Right side of status bar
 tmux_set status-right-bg "$G04"
 tmux_set status-right-fg "G12"
-tmux_set status-right-length 150
+tmux_set status-right-length 300
 RS="#[fg=$G06]$left_arrow_icon#[fg=$TC,bg=$G06] $time_icon $time_format #[fg=$TC,bg=$G06]$left_arrow_icon#[fg=$G04,bg=$TC] $date_icon $date_format "
-if "$show_download_speed"; then
-    RS="#[fg=$G05,bg=$BG]$left_arrow_icon#[fg=$TC,bg=$G05] $download_speed_icon #{download_speed} $RS"
-fi
-if "$show_web_reachable"; then
-    RS=" #{web_reachable_status} $RS"
-fi
-if [[ $prefix_highlight_pos == 'R' || $prefix_highlight_pos == 'LR' ]]; then
-    RS="#{prefix_highlight}$RS"
-fi
+RS="#[fg=$G05,bg=$G04]$left_arrow_icon#[fg=$TC,bg=$G05] #{cpu_fg_color}#{cpu_icon}#{cpu_percentage} #{ram_fg_color}#{ram_icon}#{ram_percentage}#[fg=$G04,bg=$G05]$RS"
 tmux_set status-right "$RS"
 
 # Window status
-tmux_set window-status-format " #I:#W#F "
-tmux_set window-status-current-format "#[fg=$BG,bg=$G06]$right_arrow_icon#[fg=$TC,bold] #I:#W#F #[fg=$G06,bg=$BG,nobold]$right_arrow_icon"
+tmux_set window-status-format "#I:#W#F"
+tmux_set window-status-current-format "#[fg=$BG,bg=$TC]$right_arrow_icon#[fg=$G06,bold] #I:#W#F #[fg=$TC,bg=$BG,nobold]$right_arrow_icon"
 
 # Window separator
 tmux_set window-status-separator ""
